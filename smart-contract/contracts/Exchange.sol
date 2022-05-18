@@ -24,7 +24,7 @@ contract Exchange is ERC20 {
         uint256 liquidity;
         uint256 ethBalance = address(this).balance;
         uint256 spartanTokenReserve = getReserve();
-        ERC20 spartanToken = ERC20(spartanTokenReserve);
+        ERC20 spartanToken = ERC20(spartanTokenAddress);
 
         if (spartanTokenReserve == 0) {
             spartanToken.transferFrom(msg.sender, address(this), _amount);
@@ -35,13 +35,13 @@ contract Exchange is ERC20 {
             uint256 spartanTokenAmount = (msg.value * spartanTokenReserve) /
                 (ethReserve);
             require(
-                _amount >= cryptoDevTokenAmount,
+                _amount >= spartanTokenAmount,
                 "Amount of tokens sent is less than the minimum tokens required"
             );
             spartanToken.transferFrom(
                 msg.sender,
                 address(this),
-                cryptoDevTokenAmount
+                spartanTokenAmount
             );
             liquidity = (totalSupply() * msg.value) / ethReserve;
             _mint(msg.sender, liquidity);
