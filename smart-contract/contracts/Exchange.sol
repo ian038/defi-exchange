@@ -64,4 +64,16 @@ contract Exchange is ERC20 {
         ERC20(spartanTokenAddress).transfer(msg.sender, spartanTokenAmount);
         return (ethAmount, spartanTokenAmount);
     }
+
+    function getAmountOfTokens(
+        uint256 inputAmount,
+        uint256 inputReserve,
+        uint256 outputReserve
+    ) public pure returns (uint256) {
+        require(inputReserve > 0 && outputReserve > 0, "invalid reserves");
+        uint256 inputAmountWithFee = inputAmount * 99;
+        uint256 numerator = inputAmountWithFee * outputReserve;
+        uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
+        return numerator / denominator;
+    }
 }
