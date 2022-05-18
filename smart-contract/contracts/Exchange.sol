@@ -76,4 +76,16 @@ contract Exchange is ERC20 {
         uint256 denominator = (inputReserve * 100) + inputAmountWithFee;
         return numerator / denominator;
     }
+
+    function ethToSpartanToken(uint256 _minTokens) public payable {
+        uint256 tokenReserve = getReserve();
+        uint256 tokensBought = getAmountOfTokens(
+            msg.value,
+            address(this).balance - msg.value,
+            tokenReserve
+        );
+
+        require(tokensBought >= _minTokens, "insufficient output amount");
+        ERC20(spartanTokenAddress).transfer(msg.sender, tokensBought);
+    }
 }
