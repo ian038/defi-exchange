@@ -1,4 +1,4 @@
-import { Contract, providers, utils, BigNumber } from 'ethers'
+import { Contract } from 'ethers'
 import { EXCHANGE_CONTRACT_ABI, EXCHANGE_CONTRACT_ADDRESS } from './'
 
 export const removeLiquidity = async (signer, removeLPTokensWei) => {
