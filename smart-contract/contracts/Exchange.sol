@@ -88,4 +88,20 @@ contract Exchange is ERC20 {
         require(tokensBought >= _minTokens, "insufficient output amount");
         ERC20(spartanTokenAddress).transfer(msg.sender, tokensBought);
     }
+
+    function spartanTokenToEth(uint256 _tokensSold, uint256 _minEth) public {
+        uint256 tokenReserve = getReserve();
+        uint256 ethBought = getAmountOfTokens(
+            _tokensSold,
+            tokenReserve,
+            address(this).balance
+        );
+        require(ethBought >= _minEth, "insufficient output amount");
+        ERC20(spartanTokenAddress).transferFrom(
+            msg.sender,
+            address(this),
+            _tokensSold
+        );
+        payable(msg.sender).transfer(ethBought);
+    }
 }
