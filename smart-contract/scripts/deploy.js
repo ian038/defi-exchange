@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
   const Exchange = await hre.ethers.getContractFactory("Exchange");
-  const exchange = await Exchange.deploy('0x315d812Eb76Fac89E88B2c5a6bEAeFFbC1fE4652');
+  const exchange = await Exchange.deploy('0xEB6907FB6E4F282bB3e348384b94cE1E09513696');
 
   await exchange.deployed();
 

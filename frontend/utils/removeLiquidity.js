@@ -7,18 +7,18 @@ export const removeLiquidity = async (signer, removeLPTokensWei) => {
     await tx.wait();
 };
 
-export const getTokensAfterRemove = async (provider, removeLPTokenWei, _ethBalance, cryptoDevTokenReserve) => {
+export const getTokensAfterRemove = async (provider, removeLPTokenWei, _ethBalance, spartanTokenReserve) => {
     try {
         const exchangeContract = new Contract(EXCHANGE_CONTRACT_ADDRESS, EXCHANGE_CONTRACT_ABI, provider);
         const _totalSupply = await exchangeContract.totalSupply();
 
         const _removeEther = _ethBalance.mul(removeLPTokenWei).div(_totalSupply);
-        const _removeCD = cryptoDevTokenReserve
+        const _removeS = spartanTokenReserve
             .mul(removeLPTokenWei)
             .div(_totalSupply);
         return {
             _removeEther,
-            _removeCD
+            _removeS
         };
     } catch (err) {
         console.error(err);

@@ -1,13 +1,13 @@
 import { Contract, utils } from 'ethers'
 import { TOKEN_CONTRACT_ABI, TOKEN_CONTRACT_ADDRESS, EXCHANGE_CONTRACT_ABI, EXCHANGE_CONTRACT_ADDRESS } from './'
 
-export const addLiquidity = async (signer, addCDAmountWei, addEtherAmountWei) => {
+export const addLiquidity = async (signer, addSAmountWei, addEtherAmountWei) => {
     try {
         const tokenContract = new Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_CONTRACT_ABI, signer);
         const exchangeContract = new Contract(EXCHANGE_CONTRACT_ADDRESS, EXCHANGE_CONTRACT_ABI, signer);
-        let tx = await tokenContract.approve(EXCHANGE_CONTRACT_ADDRESS, addCDAmountWei.toString());
+        let tx = await tokenContract.approve(EXCHANGE_CONTRACT_ADDRESS, addSAmountWei.toString());
         await tx.wait();
-        tx = await exchangeContract.addLiquidity(addCDAmountWei, {
+        tx = await exchangeContract.addLiquidity(addSAmountWei, {
             value: addEtherAmountWei
         });
         await tx.wait();
@@ -16,10 +16,10 @@ export const addLiquidity = async (signer, addCDAmountWei, addEtherAmountWei) =>
     }
 };
 
-export const calculateCD = async (_addEther = "0", etherBalanceContract, cdTokenReserve) => {
+export const calculateS = async (_addEther = "0", etherBalanceContract, sTokenReserve) => {
     const _addEtherAmountWei = utils.parseEther(_addEther);
-    const cryptoDevTokenAmount = _addEtherAmountWei
-        .mul(cdTokenReserve)
+    const spartanTokenAmount = _addEtherAmountWei
+        .mul(sTokenReserve)
         .div(etherBalanceContract);
-    return cryptoDevTokenAmount;
+    return spartanTokenAmount;
 }
